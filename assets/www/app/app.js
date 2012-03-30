@@ -7,7 +7,7 @@ Ext.regApplication({
     mainLaunch: function() {
         if (!device || !this.launched) {return;}
     	document.addEventListener("menubutton", onMenuKeyDown, false);
-        this.views.viewport = new this.views.MapPanel();
+        this.views.viewport = new this.views.Viewport();
         menuBar.hide();
     }
 });

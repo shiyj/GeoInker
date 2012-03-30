@@ -6,17 +6,24 @@ var menuBar = new Ext.Toolbar ({
         handler: function () {
         	menuBar.hide();
             }
-		}, {
-	    text: '撤销',
+		},  {
+	    text: '测试',
         ui: 'action',
         handler: function () {
-	    	}
-	    }, {
-	    text: '恢复',
-        ui: 'action',
-        handler: function () {
+        	Ext.dispatch({
+                controller: app.controllers.listDir,
+                action: 'list',
+                animation: {type:'slide', direction:'right'}
+            });
+        	
         	}
-	    }, {
+	    },{
+		    text: 'test again',
+	        ui: 'action',
+	        handler: function () {
+	        	ListDir.list("/mnt/sdcard", function(r){alert(r)},function(e){log(e)});
+	        	}
+		 }, {
 	    text: '踩点',
         ui: 'action',
         handler: function () {

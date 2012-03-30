@@ -16,7 +16,7 @@
     <plugin name="Temperature" value="com.phonegap.TempListener"/>
     <plugin name="FileTransfer" value="com.phonegap.FileTransfer"/>
     <plugin name="Capture" value="com.phonegap.Capture"/>
-    <plugin name="DirList" value="com.plugin.test.ListDir"/>
-    <plugin name="GetData" value="com.plugin.test.GetData"/>
-    <plugin name="HelloWorld" value="com.plugin.test.HelloWorld"/>
+    <plugin name="DirList" value="geoinker.plugin.ListDir"/>
+    <plugin name="GetData" value="geoinker.plugin.GetData"/>
+    <plugin name="HelloWorld" value="geoinker.plugin.HelloWorld"/>
 </plugins>

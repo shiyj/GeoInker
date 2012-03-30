@@ -23,10 +23,9 @@ function init() {
     });
     var Feature = OpenLayers.Feature.Vector;
     var Geometry = OpenLayers.Geometry;
-    GetData.get("测试",function(r){showSQL(r)},function(e){log(e)});
+    //GetData.get("测试",function(r){showSQL(r)},function(e){log(e)});
     function showSQL(r){
     	var len = r.points.length;
-    	
     	var features = [];
     	for(var i =0;i<len;i++){
     		var tmp =new Feature(Geometry.fromWKT(r.points[i].xypoint));
