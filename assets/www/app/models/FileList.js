@@ -1,23 +1,10 @@
-// store with data
-var dd = {
-    text: 'Groceries',
-    items: [{
-            text: 'Wasabi Peas',
-            leaf: true
-        }]
-};
-
 Ext.regModel('app.models.FileList', {
-    fields: [{name: 'text', type: 'string'}]
+    fields: [{name: 'filename', type: 'string'},
+             {name: 'isdir',type: 'boolean'}]
 });
-app.stores.fileList = new Ext.data.TreeStore({
+app.stores.dirList = ['mnt','sdcard'];
+app.stores.fileList = new Ext.data.Store({
     model: 'app.models.FileList',
-    root: dd,
-    proxy: {
-        type: 'ajax',
-        reader: {
-            type: 'tree',
-            root: 'items'
-        }
-    }
+    sorters: 'filename',
+    data: [{filename: 'sdcard',isdir: true}]
 });

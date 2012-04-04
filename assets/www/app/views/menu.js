@@ -12,7 +12,7 @@ var menuBar = new Ext.Toolbar ({
         handler: function () {
         	Ext.dispatch({
                 controller: app.controllers.listDir,
-                action: 'list',
+                action: 'initDir',
                 animation: {type:'slide', direction:'right'}
             });
         	
@@ -21,13 +21,13 @@ var menuBar = new Ext.Toolbar ({
 		    text: 'test again',
 	        ui: 'action',
 	        handler: function () {
-	        	ListDir.list("/mnt/sdcard", function(r){alert(r)},function(e){log(e)});
+	        	
 	        	}
 		 }, {
 	    text: '踩点',
         ui: 'action',
         handler: function () {
-        	navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
+        	//navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
 	    	}
 	    }]
 	});
