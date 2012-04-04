@@ -35,8 +35,6 @@ public class ListDir extends Plugin {
 			try {
 				String fileName = data.getString(0);
 				fileName = data.optString(0);
-				Log.d("filename11111111",fileName);
-				fileName = "/mnt/sdcard";
 				JSONObject fileInfo = getDirList(new File(fileName));
 				Log.d("列表插件","返回"+fileInfo.toString());
 				result = new PluginResult(Status.OK,fileInfo); 

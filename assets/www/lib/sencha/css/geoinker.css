@@ -1,0 +1,18 @@
+<style>
+.my-img-add {
+  overflow: visible;
+  -webkit-mask: 0 0 url('../themes/images/default/pictos/globe2.png') no-repeat;
+  -webkit-mask-size: 1.7em;
+  background-color: #0a7aff;
+  width: 1.7em;
+  height: 1.7em;
+ }
+ .my-img-folder {
+  overflow: visible;
+  -webkit-mask: 0 0 url('../themes/images/default/pictos/folder_black.png') no-repeat;
+  -webkit-mask-size: 1.7em;
+  background-color: #0a7aff;
+  width: 1.7em;
+  height: 1.7em;
+ }
+</style>
