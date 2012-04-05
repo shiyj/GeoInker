@@ -1,18 +1,18 @@
 app.controllers.listDir = new Ext.Controller({
     initDir: function(options) {
-    	ListDir.list("/mnt/sdcard/GeoInker", listSucc,function(e){log(e)});
-    	function listSucc(r){ 
-    		app.views.viewport.setActiveItem(app.views.dirList);
-    		data = r.children;
-    		app.stores.fileList.removeAll();
-    		app.stores.fileList.add(data)
-    		app.views.dirList.show();
-    	}
+    	app.stores.dirList = ['mnt','sdcard'];
+    	ListDir.list("/mnt/sdcard", this.fillList,function(e){log(e)});
     },
     list: function(options){
-    	ListDir.list("/mnt/sdcard/GeoInker", listSucc,function(e){log(e)});
-    	function listSucc(r){ 
-    		console.log(this);
-    	}
-    }
+    	var dir = app.stores.dirList.toString().replace(/,/g,'/');
+    	ListDir.list(dir, this.fillList,function(e){log(e)});
+    },
+    fillList: function listSucc(r){ 
+		app.views.viewport.setActiveItem(app.views.dirList);
+		data = r.children;
+		app.stores.fileList.removeAll();
+		app.views.dirList.update();
+		app.stores.fileList.add(data);
+		app.views.dirList.show();
+	}
 });
