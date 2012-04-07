@@ -6,7 +6,12 @@ app.views.DirList = Ext.extend(Ext.List,{
     		var filename = this.store.data.items[index].data.filename;
     		var isdir = this.store.data.items[index].data.isdir;
     		if(isdir){
-    			app.stores.dirList.push(filename);
+    			if(0==index){
+    				app.stores.dirList.pop(filename);
+    			} else {
+    				app.stores.dirList.push(filename);
+    			}
+    			
     			Ext.dispatch({
                     controller: app.controllers.listDir,
                     action: 'list',
