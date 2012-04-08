@@ -44,16 +44,42 @@
 You can find the android source code here: <a href="https://github.com/shiyj/GeoInker">https://github.com/shiyj/GeoInker</a></p>
 
 <h3>App introduction:</h3>
-
 <p>GeoInker is an opensource Android program (and soon will be a Mobile -- android,ios,wm&amp;wf etc. app)
 which is design to make the normal GIS functions working well on the mobile.</p>
-
 <p>Frankly, this is not an Application, it's an "architecture".</p>
-
-<p>The Geo Database GeoInker used is spatialite which is build by android NDK;
-the UI you can see in GeoInker is HTML elements with mobile css instead of the native Android UI;
-you may be screamingly for the javascript api provied by PhoneGap and the powerfull js libraries Sencha Touch and openlayers.</p>
-
+<ul>
+<li>The Geo Database GeoInker used is spatialite which is build by android NDK;</li>
+<li>the UI you can see in GeoInker is HTML elements with mobile css instead of the native Android UI;</li>
+<li>you may be screamingly for the javascript api provied by PhoneGap and the powerfull js libraries Sencha Touch and openlayers.</li>
+</ul>
+<h3>Installation</h3>
+<h4>Source Code and Apk file</h4>
+<p>You can download the source file directly here and then <strong>complie the apk file in your Eclipse</strong>.
+Or you can use git to get more details of the GeoInker's Delopment:</p>
+<pre><code>git clone git@github.com:shiyj/GeoInker.git
+</code></pre>
+<p>Then followed what the README tell you.</p>
+<p>If you just want to see what the GeoInker can do, download the <strong>apk file</strong> only.
+<div class="download-bar">
+<div class="inner">
+<a href="https://github.com/shiyj/GeoInker/tarball/master" class="download-button tar"><span>Download Source File(Geoinker.tar)</span></a>
+<a href="https://github.com/shiyj/GeoInker/zipball/master" class="download-button zip"><span>Download Source File(Geoinker.zip)</span></a>
+<a href="./file/GeoInker.apk" class="download-button apk"><span>Download GeoInker.apk</span></a>
+</div>
+</div></p>
+<h4>Test Data: Spatialite  DataBase</h4>
+<p><div class="download-bar">
+<div class="inner">
+<a href="./file/test.sqlite" class="download-button sqlite"><span>Download test.sqlite</span></a>
+</div></div></p>
+<p>The test data is an Spatialite DataBase,
+which you can even manage it just by using a SQLite Manager.</p>
+<p><strong>Confused?!</strong>
+This DataBase is SQLite based and having added many spatial operations to manage the Spatial Data.</p>
+<p>If you have leaned something about Spatial Database such as PostGIS,Oracial Spatial, 
+you can understand it well.</p>
+<h3>Contributing</h3>
+<p>I love to see people contributing to GeoInker, whether it's a bug report, feature suggestion or a pull request. At the moment, I try to keep the core slick and lean, focusing on basic Mobile GIS needs, so some of your suggestions might not find their way into GeoInker. For those ideas, I will start a list of 3rd party plugins, where you can link your own GeoInker plug-in repositories. For the future, I'm thinking about ways to easier add them into the main releases.</p>
 <h3>AUTHOR</h3>
 
 <p>史英建(Engin)  shiyj.cn@gmail.com</p>
