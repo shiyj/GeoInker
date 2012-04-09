@@ -1,6 +1,5 @@
 package geoinker.plugin;
 
-import java.io.File;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -22,27 +21,15 @@ public class SQLQuery extends Plugin {
 	
 	private JSONArray pointList = new JSONArray();
 	
-	private void getSQLData(String action) {
+	private void getSQLData(String action,String data) {
 		try {
 			Class.forName("SQLite.JDBCDriver").newInstance();
 			jsqlite.Database db = new jsqlite.Database();
-			// 检测、创建数据库的文件夹
-			File dir = new File("/mnt/sdcard/");
-			if (!dir.exists()) {
-				dir.mkdir();
-			}
-			// 如果文件夹已经存在了
-			else {
-				// 检查文件是否存在
-				dir = new File("/mnt/sdcard/", "henan.sqlite");
-				if (!dir.exists()) {
-					Log.v("不存在!", "不存在地理数据库！");
-					return;
-				}
-			}
+			Log.v("数据库传人data", data);
+			
 			// db.open(Environment.getExternalStorageDirectory() +
 			// "/download/test-2.3.sqlite",jsqlite.Constants.SQLITE_OPEN_READONLY);
-			db.open("/mnt/sdcard/henan.sqlite",
+			db.open(data,
 					jsqlite.Constants.SQLITE_OPEN_READONLY);
 			Callback cb = new Callback() {
 				public void columns(String[] coldata) {
@@ -93,7 +80,7 @@ public class SQLQuery extends Plugin {
 		if(TABLES.equals(action)||COLUMNS.equals(action)) {
 			try {
 				JSONObject point = new JSONObject();
-				getSQLData(action);
+				getSQLData(action,data.getString(0));
 				point.put("points", pointList);
 				Log.d("数据库插件","返回"+point.toString());
 				result = new PluginResult(Status.OK,point); 
