@@ -18,7 +18,20 @@ app.views.DirList = Ext.extend(Ext.List,{
                     animation: {type:'slide', direction:'right'}
                 });
     		} else {
-    			alert(filename);
+    			navigator.notification.confirm(
+    		            'Open '+filename+' ?',
+    		            function(button){
+    		            	if(1==button){
+	        			    	Ext.dispatch({
+	        			    		controller: app.controllers.map,
+	        			    		action: 'openDatabase',
+	        			    		filename: filename
+	        			    	})	
+        			    }},
+    		            'Open The Database',
+    		            '确定,取消'
+    		        );
+    			
     		}
     	}
     }

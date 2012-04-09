@@ -12,7 +12,7 @@ var menuBar = new Ext.Toolbar ({
         handler: function () {
         	Ext.dispatch({
                 controller: app.controllers.listDir,
-                action: 'initDir',
+                action: 'list',
                 animation: {type:'slide', direction:'right'}
             });
         	

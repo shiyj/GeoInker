@@ -4,8 +4,11 @@ var  ListDir = {
 		}
 };
 
-var  GetData = {
-		get: function(directory,successCallback,failureCallback){
-			return PhoneGap.exec(successCallback,failureCallback,'GetData','get',[directory]);
-		}
+var  SQLQuery = {
+		getColumns: function(arg,successCallback,failureCallback){
+			return PhoneGap.exec(successCallback,failureCallback,'SQLQuery','getColumns',[arg]);
+		},
+		getTables: function(arg,successCallback,failureCallback){
+			return PhoneGap.exec(successCallback,failureCallback,'SQLQuery','getTables',[arg]);
+		},
 };
