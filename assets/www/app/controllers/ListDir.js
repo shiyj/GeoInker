@@ -1,8 +1,4 @@
 app.controllers.listDir = new Ext.Controller({
-    initDir: function(options) {
-    	app.stores.dirList = ['mnt','sdcard'];
-    	ListDir.list("/mnt/sdcard/Geoinker", this.fillList,function(e){log(e)});
-    },
     list: function(options){
     	var dir = '/'+app.stores.dirList.join('/');
     	ListDir.list(dir, this.fillList,function(e){log(e)});
