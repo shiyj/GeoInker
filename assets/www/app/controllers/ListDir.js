@@ -6,6 +6,13 @@ app.controllers.listDir = new Ext.Controller({
     fillList: function listSucc(r){ 
 		app.views.viewport.setActiveItem(app.views.dirList);
 		data = r.children;
+		data.sort(function(a,b){
+			if(a.isdir == b.isdir){
+				return a.filename.toLowerCase() > b.filename.toLowerCase() ? 1 : -1;
+			} else {
+				return b.isdir > a.isdir ? 1 : -1;
+			}
+		});
 		data.unshift({filename:'..',isdir:true});
 		app.stores.fileList.removeAll();
 		app.views.dirList.update();

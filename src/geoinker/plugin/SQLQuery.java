@@ -29,8 +29,8 @@ public class SQLQuery extends Plugin {
 			
 			// db.open(Environment.getExternalStorageDirectory() +
 			// "/download/test-2.3.sqlite",jsqlite.Constants.SQLITE_OPEN_READONLY);
-			db.open(data,
-					jsqlite.Constants.SQLITE_OPEN_READONLY);
+			
+			db.open(data,jsqlite.Constants.SQLITE_OPEN_READONLY);
 			Callback cb = new Callback() {
 				public void columns(String[] coldata) {
 					 Log.v("columns", "Columns: " + Arrays.toString(coldata));
@@ -60,7 +60,13 @@ public class SQLQuery extends Plugin {
 				query = "SELECT name,AsText(Geometry) from Polygon";
 			else 
 				query = "SELECT DISTINCT f_table_name from geometry_columns";
+			Log.v("after", data);
+			try{
 			db.exec(query, cb);
+			}catch(Exception e){
+				Log.v("aaaa", e.toString());
+				return;
+			}
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
