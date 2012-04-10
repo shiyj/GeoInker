@@ -55,7 +55,7 @@ app.controllers.map = new Ext.Controller({
 	            toolbar
 	        ],
 	        layers: [wms, vector],
-	        center: new OpenLayers.LonLat(113, 34),
+	        center: new OpenLayers.LonLat(113, 30),
 	        zoom: 4,
 	        theme: null
 	    });
@@ -91,6 +91,9 @@ app.controllers.map = new Ext.Controller({
 		SQLQuery.getColumns(dir,function(r){showSQL(r)},function(e){log(e)});
 		function showSQL(r){
 			var len = r.points.length;
+			if(len == 0){
+				alert("Not a Sqlite Database!");
+			}
 			var features = [];
 			for(var i =0;i<len;i++){
 		    	var tmp =new Feature(Geometry.fromWKT(r.points[i].xypoint));
