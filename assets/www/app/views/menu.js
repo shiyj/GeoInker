@@ -14,20 +14,24 @@ var menuBar = new Ext.Toolbar ({
                 controller: app.controllers.listDir,
                 action: 'list',
                 animation: {type:'slide', direction:'right'}
-            });
-        	
+            	});
         	}
 	    },{
 		    text: 'test again',
 	        ui: 'action',
 	        handler: function () {
-	        	
+	        	alert("aaaa");
+	        	navigator.geolocation.getCurrentPosition(function(position){alert(position.coords.latitude)}, function(err){alert(err)},{ maximumAge: 3000, timeout: 5000,enableHighAccuracy: true });
 	        	}
 		 }, {
 	    text: '踩点',
         ui: 'action',
         handler: function () {
-        	//navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
+        	Ext.dispatch({
+                controller: app.controllers.gps,
+                action: 'getGPS',
+                animation: {type:'slide', direction:'right'}
+            	});
 	    	}
 	    }]
 	});
