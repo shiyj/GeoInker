@@ -7,7 +7,7 @@ var menuBar = new Ext.Toolbar ({
         	menuBar.hide();
             }
 		},  {
-	    text: '测试',
+	    text: '打开数据库',
         ui: 'action',
         handler: function () {
         	Ext.dispatch({
