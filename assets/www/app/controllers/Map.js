@@ -1,46 +1,65 @@
 app.controllers.map = new Ext.Controller({
-	init: function(options){
-		 // create a vector layer for drawing
-	    var vector = new OpenLayers.Layer.Vector('Vector Layer', {
-	        styleMap: new OpenLayers.StyleMap({'default':{
-	            strokeColor: "#0000FF",
-	            strokeOpacity: 1,
-	            strokeWidth: 3,
-	            fillColor: "#5500FF",
-	            fillOpacity: 0.5,
-	            pointRadius: 6,
-	            pointerEvents: "visiblePainted",
-	        }})
-	    });
+	vector: new OpenLayers.Layer.Vector('Vector Layer', {
+        styleMap: new OpenLayers.StyleMap({'default':{
+            strokeColor: "#0000FF",
+            strokeOpacity: 1,
+            strokeWidth: 3,
+            fillColor: "#5500FF",
+            fillOpacity: 0.5,
+            pointRadius: 6,
+            pointerEvents: "visiblePainted",
+        }})
+    }),
+    dbvector: new OpenLayers.Layer.Vector('Database Vector Layer', {
+		styleMap: new OpenLayers.StyleMap({'default':{
+			strokeColor: "#00FF00",
+			strokeOpacity: 1,
+	    	strokeWidth: 3,
+	    	fillColor: "#FF5500",
+	    	fillOpacity: 0.5,
+	    	pointRadius: 6,
+	    	pointerEvents: "visiblePainted",
+	    	label : " ${name} ",       
+	    	fontColor: "red",
+	    	fontSize: "12px",
+	    	fontFamily: "Courier New, monospace",
+	    	fontWeight: "bold",
+	    	labelAlign: "cm",
+	    	labelXOffset: "${xOffset}",
+	    	labelYOffset: "${yOffset}"
+		}})
+	}),
+    toolbar: new OpenLayers.Control.Panel({
+        displayClass: 'olControlEditingToolbar'
+    }),
+    wms: new OpenLayers.Layer.WMS( "OpenLayers WMS","http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} ),
+    map:null,
+	initMap: function(options){
 	    // OpenLayers' EditingToolbar internally creates a Navigation control, we
 	    // want a TouchNavigation control here so we create our own editing toolbar
-	    var toolbar = new OpenLayers.Control.Panel({
-	        displayClass: 'olControlEditingToolbar'
-	    });
-	    toolbar.addControls([
+	    
+	    this.toolbar.addControls([
 	        // this control is just there to be able to deactivate the drawing
 	        // tools
 	        new OpenLayers.Control({
 	            displayClass: 'olControlNavigation'
 	        }),
-	        new OpenLayers.Control.ModifyFeature(vector, {
+	        new OpenLayers.Control.ModifyFeature(this.vector, {
 	            vertexRenderIntent: 'default',
 	            displayClass: 'olControlModifyFeature'
 	        }),
-	        new OpenLayers.Control.DrawFeature(vector, OpenLayers.Handler.Point, {
+	        new OpenLayers.Control.DrawFeature(this.vector, OpenLayers.Handler.Point, {
 	            displayClass: 'olControlDrawFeaturePoint'
 	        }),
-	        new OpenLayers.Control.DrawFeature(vector, OpenLayers.Handler.Path, {
+	        new OpenLayers.Control.DrawFeature(this.vector, OpenLayers.Handler.Path, {
 	            displayClass: 'olControlDrawFeaturePath'
 	        }),
-	        new OpenLayers.Control.DrawFeature(vector, OpenLayers.Handler.Polygon, {
+	        new OpenLayers.Control.DrawFeature(this.vector, OpenLayers.Handler.Polygon, {
 	            displayClass: 'olControlDrawFeaturePolygon'
 	        })
 	    ]);
-
-	    wms = new OpenLayers.Layer.WMS( "OpenLayers WMS","http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
 	    //wms = new OpenLayers.Layer.WMS( "WORLD","http://10.0.2.2/cgi-bin/mapserv?map=/home/engin/webapp/ms4w/apps/tutorial/htdocs/world.map&", {layers: 'world_adm0'},{gutter: 15} );
-	    map = new OpenLayers.Map({
+	    this.map = new OpenLayers.Map({
 	        div: 'map',
 	        projection: 'EPSG:4326',
 	        units: 'm',
@@ -52,39 +71,16 @@ app.controllers.map = new Ext.Controller({
 	        controls: [
 	            new OpenLayers.Control.TouchNavigation(),
 	            new OpenLayers.Control.ZoomPanel(),
-	            toolbar
+	            this.toolbar
 	        ],
-	        layers: [wms, vector],
+	        layers: [this.wms, this.vector],
 	        center: new OpenLayers.LonLat(113, 30),
-	        zoom: 4,
+	        zoom: 6,
 	        theme: null
 	    });
-
-	    // activate the first control to render the "navigation icon"
-	    // as active
-	    toolbar.controls[0].activate();
+	    this.toolbar.controls[0].activate();
 	},
-	openDatabase: function(options){
-		console.log(options.filename);
-		var dbvector = new OpenLayers.Layer.Vector('Vector Layer', {
-			styleMap: new OpenLayers.StyleMap({'default':{
-				strokeColor: "#00FF00",
-				strokeOpacity: 1,
-		    	strokeWidth: 3,
-		    	fillColor: "#FF5500",
-		    	fillOpacity: 0.5,
-		    	pointRadius: 6,
-		    	pointerEvents: "visiblePainted",
-		    	label : " ${name} ",       
-		    	fontColor: "red",
-		    	fontSize: "12px",
-		    	fontFamily: "Courier New, monospace",
-		    	fontWeight: "bold",
-		    	labelAlign: "cm",
-		    	labelXOffset: "${xOffset}",
-		    	labelYOffset: "${yOffset}"
-			}})
-		});
+	openDatabase: function(options){		
 		var Feature = OpenLayers.Feature.Vector;
 		var Geometry = OpenLayers.Geometry;
 		var  dir = '/'+app.stores.dirList.join('/') +'/' + options.filename;
@@ -102,8 +98,9 @@ app.controllers.map = new Ext.Controller({
 		        	};
 				features.push( tmp )
 		    }
-			dbvector.addFeatures(features);
-			map.addLayer(dbvector)
+			//运行上下文改变,不能再用this.
+			app.controllers.map.dbvector.addFeatures(features);
+			app.controllers.map.map.addLayer(app.controllers.map.dbvector)
 			app.views.viewport.setActiveItem(app.views.mapPanel);
 		} 
 	},
