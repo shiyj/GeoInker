@@ -10,7 +10,7 @@ app.views.MapPanel = Ext.extend(Ext.Panel, {
 			render: function(){
 				Ext.dispatch({
                     controller: app.controllers.map,
-                    action: 'init',
+                    action: 'initMap',
                     animation: {type:'slide', direction:'right'}
                 });
 			}
