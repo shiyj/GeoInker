@@ -3,6 +3,8 @@ package geoinker.droidgap;
 import java.io.File;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+
 import com.phonegap.*;
 
 
@@ -31,6 +33,21 @@ public class GeoInker extends DroidGap
         super.setIntegerProperty("splashscreen", R.drawable.splash);
         geoinkerInit();
         super.loadUrl("file:///android_asset/www/index.html");
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	
+    	 if (super.appView == null) {
+             return super.onKeyDown(keyCode, event);
+         }
+    	 if (keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+    		 super.appView.loadUrl("javascript:PhoneGap.fireDocumentEvent('volumeupbutton');");
+    		 return true;
+    	 } else  if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+    		 super.appView.loadUrl("javascript:PhoneGap.fireDocumentEvent('volumedownbutton');");
+    		 return true;
+    	 }
+         return super.onKeyDown(keyCode, event);
     }
 }
 
