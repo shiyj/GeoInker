@@ -1,4 +1,5 @@
 app.controllers.map = new Ext.Controller({
+	drawPoint: null,
 	vector: new OpenLayers.Layer.Vector('Vector Layer', {
         styleMap: new OpenLayers.StyleMap({'default':{
             strokeColor: "#0000FF",
@@ -29,18 +30,25 @@ app.controllers.map = new Ext.Controller({
 	    	labelYOffset: "${yOffset}"
 		}})
 	}),
+	positionVector:new OpenLayers.Layer.Vector('Position Vector Layer', {
+        styleMap: new OpenLayers.StyleMap({'default':{
+            strokeColor: "#FF0000",
+            strokeOpacity: 1,
+            strokeWidth: 3,
+            fillColor: "#55FF00",
+            fillOpacity: 0.5,
+            pointRadius: 8,
+            pointerEvents: "visiblePainted",
+        }})
+    }),
     toolbar: new OpenLayers.Control.Panel({
         displayClass: 'olControlEditingToolbar'
     }),
     wms: new OpenLayers.Layer.WMS( "OpenLayers WMS","http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} ),
     map:null,
 	initMap: function(options){
-	    // OpenLayers' EditingToolbar internally creates a Navigation control, we
-	    // want a TouchNavigation control here so we create our own editing toolbar
-	    
+		this.drawPoint = new OpenLayers.Control.DrawFeature(this.positionVector, OpenLayers.Handler.Point);
 	    this.toolbar.addControls([
-	        // this control is just there to be able to deactivate the drawing
-	        // tools
 	        new OpenLayers.Control({
 	            displayClass: 'olControlNavigation'
 	        }),
@@ -73,7 +81,7 @@ app.controllers.map = new Ext.Controller({
 	            new OpenLayers.Control.ZoomPanel(),
 	            this.toolbar
 	        ],
-	        layers: [this.wms, this.vector],
+	        layers: [this.wms, this.vector,this.positionVector],
 	        center: new OpenLayers.LonLat(113, 30),
 	        zoom: 6,
 	        theme: null
