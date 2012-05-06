@@ -25,6 +25,14 @@ function onBackKeyDown() {
 	        );
 	}
 }
+
+function onVolumeDownKeyDown() {
+	app.controllers.map.map.zoomOut();
+}
+
+function onVolumeUpKeyDown() {
+	app.controllers.map.map.zoomIn();
+}
 function onError(error) {
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
