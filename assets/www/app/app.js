@@ -8,6 +8,8 @@ Ext.regApplication({
         if (!device || !this.launched) {return;}
     	document.addEventListener("menubutton", onMenuKeyDown, false);
     	document.addEventListener("backbutton", onBackKeyDown, false);
+    	document.addEventListener("volumedownbutton", onVolumeDownKeyDown, false);
+    	document.addEventListener("volumeupbutton", onVolumeUpKeyDown, false);
         this.views.viewport = new this.views.Viewport();
         menuBar.hide();
     }
