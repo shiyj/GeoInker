@@ -17,14 +17,12 @@ var menuBar = new Ext.Toolbar ({
             	});
         	}
 	    },{
-		    text: 'test again',
+		    text: '设置',
 	        ui: 'action',
 	        handler: function () {
-	        	alert("aaaa");
-	        	navigator.geolocation.getCurrentPosition(function(position){alert(position.coords.latitude)}, function(err){alert(err)},{ maximumAge: 3000, timeout: 5000,enableHighAccuracy: true });
 	        	}
 		 }, {
-	    text: '踩点',
+	    text: '定位',
         ui: 'action',
         handler: function () {
         	Ext.dispatch({
