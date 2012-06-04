@@ -112,6 +112,13 @@ app.controllers.map = new Ext.Controller({
 			app.views.viewport.setActiveItem(app.views.mapPanel);
 		} 
 	},
+	finishDraw: function(){
+		var len = this.toolbar.controls.length
+		for(var i = 0; i<len; i++){
+			if(this.toolbar.controls[i].active)
+				this.toolbar.controls[i].finishSketch();
+		}
+	},
 	getTables: function(filename){
 		
 	}
