@@ -26,27 +26,10 @@ var menuBar = new Ext.Toolbar ({
 			    text: 'test',
 		        ui: 'action',
 		        handler: function () {
-		        	if(Ext.util.JSONP.current)
-		        		Ext.util.JSONP.current=null;
-		        		Ext.util.JSONP.request({
-		        		    url: 'http://10.0.2.2:3000/m_join',
-		        		    params: {
-		        				uid: Date.parse(new Date()),
-		        				nick: "aaaa",
-		        				lat: 10,
-		        				lon: 10
-		        				},
-		        		    callbackKey: 'callback',
-		        		    callback: function(result) {
-		        					var sessionid=result.id;
-		        					var since=result.starttime;
-		        					if(sessionid && since){
-		        						alert("join successed with session id"+sessionid);
-		        					}else {
-		        						alert('join failed');
-		        					}
-		        		    },
-		        		});
+		        	Ext.dispatch({
+		                controller: app.controllers.map,
+		                action: 'finishDraw'
+		            	});
 		        	}
 		 }, {
 	    text: '定位',
@@ -54,8 +37,7 @@ var menuBar = new Ext.Toolbar ({
         handler: function () {
         	Ext.dispatch({
                 controller: app.controllers.gps,
-                action: 'getGPS',
-                animation: {type:'slide', direction:'right'}
+                action: 'getGPS'
             	});
 	    	}
 	    }]
