@@ -112,11 +112,45 @@ app.controllers.map = new Ext.Controller({
 			app.views.viewport.setActiveItem(app.views.mapPanel);
 		} 
 	},
+	drawControl: function(){
+		mapControl.show('pop');
+	},
 	finishDraw: function(){
 		var len = this.toolbar.controls.length
 		for(var i = 0; i<len; i++){
-			if(this.toolbar.controls[i].active)
-				this.toolbar.controls[i].finishSketch();
+			if(this.toolbar.controls[i].active){
+				var displayclass_str = this.toolbar.controls[i].displayClass
+				if("olControlDrawFeaturePolygon"==displayclass_str || "olControlDrawFeaturePath" == displayclass_str)
+					this.toolbar.controls[i].finishSketch();
+			}
+				
+		}
+	},
+	undoDraw: function(){
+		var len = this.toolbar.controls.length
+		for(var i = 0; i<len; i++){
+			if(this.toolbar.controls[i].active){
+				this.toolbar.controls[i].undo();
+			}
+				
+		}
+	},
+	redoDraw: function(){
+		var len = this.toolbar.controls.length
+		for(var i = 0; i<len; i++){
+			if(this.toolbar.controls[i].active){
+				this.toolbar.controls[i].redo();
+			}
+				
+		}
+	},
+	cancelDraw: function(){
+		var len = this.toolbar.controls.length
+		for(var i = 0; i<len; i++){
+			if(this.toolbar.controls[i].active){
+				this.toolbar.controls[i].cancel();
+			}
+				
 		}
 	},
 	getTables: function(filename){

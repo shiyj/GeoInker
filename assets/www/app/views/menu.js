@@ -28,7 +28,7 @@ var menuBar = new Ext.Toolbar ({
 		        handler: function () {
 		        	Ext.dispatch({
 		                controller: app.controllers.map,
-		                action: 'finishDraw'
+		                action: 'drawControl'
 		            	});
 		        	}
 		 }, {
