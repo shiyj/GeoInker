@@ -22,7 +22,7 @@ app.views.SettingPanel= new Ext.extend(Ext.Panel,{
                 required: true
             },{
             	xtype: 'button',
-                text: 'OK',
+                text: '加入小组',
                 ui: 'action',
                 handler: function(){
             		var userName=Ext.getCmp('userName').getValue();
