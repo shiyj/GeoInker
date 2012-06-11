@@ -97,6 +97,7 @@ app.controllers.map = new Ext.Controller({
 			var len = r.points.length;
 			if(len == 0){
 				alert("Not a Sqlite Database!");
+				return;
 			}
 			var features = [];
 			for(var i =0;i<len;i++){

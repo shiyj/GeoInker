@@ -7,7 +7,7 @@ var menuBar = new Ext.Toolbar ({
         	menuBar.hide();
             }
 		},  {
-	    text: '打开数据库',
+	    text: '打开',
         ui: 'action',
         handler: function () {
         	Ext.dispatch({
@@ -23,7 +23,7 @@ var menuBar = new Ext.Toolbar ({
 	        	app.views.viewport.setActiveItem(app.views.setting);
 	        	}
 		 },{
-			    text: 'test',
+			    text: '地图操作',
 		        ui: 'action',
 		        handler: function () {
 		        	Ext.dispatch({
