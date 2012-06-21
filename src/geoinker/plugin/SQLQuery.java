@@ -23,7 +23,8 @@ public class SQLQuery extends Plugin {
 	
 	private void getSQLData(String action,String data) {
 		try {
-			Class.forName("SQLite.JDBCDriver").newInstance();
+			//Class.forName("SQLite.JDBCDriver").newInstance();
+			Class.forName("org.sqldroid.SQLDroidDriver").newInstance();
 			jsqlite.Database db = new jsqlite.Database();
 			Log.v("数据库传人data", data);
 			
