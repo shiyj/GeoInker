@@ -94,16 +94,16 @@ app.controllers.map = new Ext.Controller({
 		var  dir = '/'+app.stores.dirList.join('/') +'/' + options.filename;
 		SQLQuery.getColumns(dir,function(r){showSQL(r)},function(e){log(e)});
 		function showSQL(r){
-			var len = r.points.length;
+			var len = r.datas.length;
 			if(len == 0){
 				alert("Not a Sqlite Database!");
 				return;
 			}
 			var features = [];
 			for(var i =0;i<len;i++){
-		    	var tmp =new Feature(Geometry.fromWKT(r.points[i].xypoint));
+		    	var tmp =new Feature(Geometry.fromWKT(r.datas[i].data));
 		    	tmp.attributes = {
-		                    name: r.points[i].name
+		                    name: r.datas[i].name
 		        	};
 				features.push( tmp )
 		    }

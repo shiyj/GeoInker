@@ -19,15 +19,13 @@ public class SQLQuery extends Plugin {
 	public static final String COLUMNS ="getColumns";
 	public static final String TABLES = "getTables";
 	
-	private JSONArray pointList = new JSONArray();
+	private JSONArray dataList = new JSONArray();
 	
 	private void getSQLData(String action,String data) {
 		try {
 			//Class.forName("SQLite.JDBCDriver").newInstance();
 			Class.forName("org.sqldroid.SQLDroidDriver").newInstance();
-			jsqlite.Database db = new jsqlite.Database();
-			Log.v("数据库传人data", data);
-			
+			jsqlite.Database db = new jsqlite.Database();	
 			// db.open(Environment.getExternalStorageDirectory() +
 			// "/download/test-2.3.sqlite",jsqlite.Constants.SQLITE_OPEN_READONLY);
 			
@@ -43,11 +41,12 @@ public class SQLQuery extends Plugin {
 
 				public boolean newrow(String[] rowdata){
 					Log.v("行:", "Row: " + Arrays.toString(rowdata));
-					JSONObject point = new JSONObject();
+					
+					JSONObject data = new JSONObject();
 					try{
-						point.put("name", rowdata[0]);
-						point.put("xypoint", rowdata[1]);
-						pointList.put(point);
+						data.put("name", rowdata[0]);
+						data.put("data", rowdata[1]);
+						dataList.put(data);
 					}catch (JSONException jsonEx) {
 						 Log.d("DirectoryListPlugin", "Got JSON Exception " + jsonEx.getMessage());
 					}
@@ -59,13 +58,14 @@ public class SQLQuery extends Plugin {
 			String query;
 			if(COLUMNS.equals(action))
 				query = "SELECT name,AsText(Geometry) from Polygon";
-			else 
+			else if(TABLES.equals(action))
 				query = "SELECT DISTINCT f_table_name from geometry_columns";
-			Log.v("after", data);
+			else
+				return;
 			try{
 			db.exec(query, cb);
 			}catch(Exception e){
-				Log.v("aaaa", e.toString());
+				Log.v("DB ERROR/数据库查询执行失败:", e.toString());
 				return;
 			}
 		} catch (IllegalAccessException e) {
@@ -88,7 +88,7 @@ public class SQLQuery extends Plugin {
 			try {
 				JSONObject point = new JSONObject();
 				getSQLData(action,data.getString(0));
-				point.put("points", pointList);
+				point.put("datas", dataList);
 				Log.d("数据库插件","返回"+point.toString());
 				result = new PluginResult(Status.OK,point); 
 			} catch (JSONException jsonEx) {
