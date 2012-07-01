@@ -154,7 +154,17 @@ app.controllers.map = new Ext.Controller({
 				
 		}
 	},
-	getTables: function(filename){
-		
+	getTables: function(options){
+		var  dir = '/'+app.stores.dirList.join('/') +'/' + options.filename;
+		SQLQuery.getTables(dir,function(r){showSQL(r)},function(e){log(e)});
+		function showSQL(r){
+			var len = r.datas.length;
+			if(len == 0){
+				alert("Not a Sqlite Database!");
+				return;
+			}
+			//运行上下文改变,不能再用this.
+			app.views.viewport.setActiveItem(app.views.mapPanel);
+		} 
 	}
 })
