@@ -31,8 +31,10 @@ public class SQLQuery extends Plugin {
 			
 			db.open(data,jsqlite.Constants.SQLITE_OPEN_READONLY);
 			Callback cb = new Callback() {
+				private String queryColumns ="" ;
 				public void columns(String[] coldata) {
-					 Log.v("columns", "Columns: " + Arrays.toString(coldata));
+					queryColumns = Arrays.toString(coldata);
+					 Log.v("columns", "Columns: " +queryColumns);
 				}
 
 				public void types(String[] types) {
@@ -42,10 +44,19 @@ public class SQLQuery extends Plugin {
 				public boolean newrow(String[] rowdata){
 					Log.v("行:", "Row: " + Arrays.toString(rowdata));
 					
-					JSONObject data = new JSONObject();
 					try{
-						data.put("name", rowdata[0]);
-						data.put("data", rowdata[1]);
+						JSONObject data = new JSONObject();
+						Log.v("queryColumns", queryColumns);
+						if(queryColumns.equals("[f_table_name]"))
+						{
+							Log.v("GeoDB Columns", Arrays.toString(rowdata));
+							data.put("name", rowdata[0]);
+						}
+						else
+						{
+							data.put("name", rowdata[0]);
+							data.put("data", rowdata[1]);
+						}
 						dataList.put(data);
 					}catch (JSONException jsonEx) {
 						 Log.d("DirectoryListPlugin", "Got JSON Exception " + jsonEx.getMessage());
