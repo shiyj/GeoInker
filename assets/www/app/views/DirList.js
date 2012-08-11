@@ -24,12 +24,12 @@ app.views.DirList = Ext.extend(Ext.List,{
     		            	if(1==button){
 	        			    	Ext.dispatch({
 	        			    		controller: app.controllers.map,
-	        			    		action: 'getTables',
+	        			    		action: 'openDatabase',
 	        			    		filename: filename
 	        			    	})	
         			    }},
     		            'Open The Database',
-    		            '确定,取消'
+    		            'OK,Cancle'
     		        );
     			
     		}

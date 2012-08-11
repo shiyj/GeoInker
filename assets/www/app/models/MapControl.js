@@ -5,8 +5,8 @@ Ext.regModel('app.models.MapControl', {
 app.stores.dirList = ['mnt','sdcard','Geoinker'];
 app.stores.mapControl = new Ext.data.Store({
     model: 'app.models.MapControl',
-    data: [{action:'finishDraw',name:'完成'},
-           {action:'undoDraw',name: '撤销'},
-           {action:'redoDraw',name: '恢复'},
-           {action:'cancelDraw',name: '取消'}]
+    data: [{action:'finishDraw',name:'Finish'},
+           {action:'undoDraw',name: 'Undo'},
+           {action:'redoDraw',name: 'Redo'},
+           {action:'cancelDraw',name: 'Cancel'}]
 });
