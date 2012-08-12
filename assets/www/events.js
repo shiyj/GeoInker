@@ -12,6 +12,12 @@ function onConfirm(button) {
 	}
 }
 function onBackKeyDown() {
+	if (typeof(dbTableList) != "undefined") {
+		if (!dbTableList.hidden) {
+			dbTableList.hide();
+			return;
+		}
+	}
 	if (app.views.viewport.getActiveItem() != app.views.mapPanel) {
 		app.views.viewport.setActiveItem(app.views.mapPanel);
 		return;

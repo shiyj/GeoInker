@@ -23,7 +23,7 @@ app.controllers.map = new Ext.Controller({
 				fillOpacity: 0.5,
 				pointRadius: 6,
 				pointerEvents: "visiblePainted",
-				label: " ${name} ",
+				//label: " ${name} ",
 				fontColor: "red",
 				fontSize: "12px",
 				fontFamily: "Courier New, monospace",
@@ -84,18 +84,20 @@ app.controllers.map = new Ext.Controller({
 			zoom: 6,
 			theme: null
 		});
+		this.map.addLayer(this.dbvector);
 		this.toolbar.controls[0].activate();
 	},
 	openDatabase: function(options) {
 		var that = this;
+		var tables = options.tables;
 		var Feature = OpenLayers.Feature.Vector;
 		var Geometry = OpenLayers.Geometry;
-		var dir = '/' + app.stores.dirList.join('/') + '/' + options.filename;
-		SQLQuery.getColumns(dir, function(r) {
+		//var dir = '/' + app.stores.dirList.join('/') + '/' + options.filename;
+		SQLQuery.getColumns(tables, function(r) {
 			showSQL(r)
 		},
 		function(e) {
-			log(e)
+			alert(e);
 		});
 		function showSQL(r) {
 			var len = r.datas.length;
@@ -112,7 +114,6 @@ app.controllers.map = new Ext.Controller({
 				features.push(tmp)
 			}
 			that.dbvector.addFeatures(features);
-			that.map.addLayer(that.dbvector);
 			app.views.viewport.setActiveItem(app.views.mapPanel);
 		}
 	},
@@ -170,7 +171,38 @@ app.controllers.map = new Ext.Controller({
 				alert("Not a Sqlite Database!");
 				return;
 			}
-			app.views.viewport.setActiveItem(app.views.mapPanel);
+			dbTableList = new app.views.DbTableList();
+			for (i = 0; i < len; i++) {
+				var item = {
+					xtype: 'checkboxfield',
+					name: r.datas[i].name,
+					label: r.datas[i].name
+				};
+				dbTableList.add(item);
+			}
+			function openHandler() {
+				that = dbTableList;
+				var len = that.items.length;
+				if (0 == len) {
+					return;
+				}
+				var tables = "";
+				for (var i = 0; i < len; i++) {
+					if (that.items.getAt(i).isChecked()) {
+						tables+=that.items.getAt(i).name +";";
+					}
+				}
+        if(""==tables){alert("Please Select at leat on table");return}
+				Ext.dispatch({
+					controller: app.controllers.map,
+					action: 'openDatabase',
+					tables: tables
+				});
+        that.hide();
+			}
+			dbTableList.dockedItems.items[1].handler = openHandler;
+			dbTableList.show('pop');
+			//app.views.viewport.setActiveItem(app.views.mapPanel);
 		}
 	}
 })

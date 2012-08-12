@@ -14,22 +14,23 @@ import jsqlite.Callback;
 
 import android.util.Log;
 
-
 public class SQLQuery extends Plugin {
 	public static final String COLUMNS ="getColumns";
 	public static final String TABLES = "getTables";
 	
-	private JSONArray dataList = new JSONArray();
+	private JSONArray dataList = null;
+	private String filename = "";
+	private String queryString = "";
 	
-	private void getSQLData(String action,String data) {
+	private void getSQLData() {
 		try {
 			//Class.forName("SQLite.JDBCDriver").newInstance();
 			Class.forName("org.sqldroid.SQLDroidDriver").newInstance();
-			jsqlite.Database db = new jsqlite.Database();	
+				
 			// db.open(Environment.getExternalStorageDirectory() +
 			// "/download/test-2.3.sqlite",jsqlite.Constants.SQLITE_OPEN_READONLY);
-			
-			db.open(data,jsqlite.Constants.SQLITE_OPEN_READONLY);
+			jsqlite.Database db = new jsqlite.Database();
+			db.open(filename,jsqlite.Constants.SQLITE_OPEN_READONLY);
 			Callback cb = new Callback() {
 				private String queryColumns ="" ;
 				public void columns(String[] coldata) {
@@ -54,8 +55,7 @@ public class SQLQuery extends Plugin {
 						}
 						else
 						{
-							data.put("name", rowdata[0]);
-							data.put("data", rowdata[1]);
+							data.put("data", rowdata[0]);
 						}
 						dataList.put(data);
 					}catch (JSONException jsonEx) {
@@ -66,15 +66,9 @@ public class SQLQuery extends Plugin {
 			};
 
 			//String query = "SELECT name, peoples, AsText(Geometry) from Towns where peoples > 350000";
-			String query;
-			if(COLUMNS.equals(action))
-				query = "SELECT name,AsText(Geometry) from Polygon";
-			else if(TABLES.equals(action))
-				query = "SELECT DISTINCT f_table_name from geometry_columns";
-			else
-				return;
+
 			try{
-			db.exec(query, cb);
+			db.exec(queryString, cb);
 			}catch(Exception e){
 				Log.v("DB ERROR/数据库查询执行失败:", e.toString());
 				return;
@@ -95,15 +89,38 @@ public class SQLQuery extends Plugin {
 		Log.d("数据库插件","插件运行ing");
 		Log.d("数据库插件",action);
 		PluginResult result = null;
-		if(TABLES.equals(action)||COLUMNS.equals(action)) {
+		dataList = new JSONArray();
+		if(TABLES.equals(action)) {
 			try {
 				JSONObject point = new JSONObject();
-				getSQLData(action,data.getString(0));
+				filename = data.getString(0);
+				queryString = "SELECT DISTINCT f_table_name from geometry_columns";
+				getSQLData();
 				point.put("datas", dataList);
 				Log.d("数据库插件","返回"+point.toString());
 				result = new PluginResult(Status.OK,point); 
 			} catch (JSONException jsonEx) {
 				 Log.d("DirectoryListPlugin", "Got JSON Exception " + jsonEx.getMessage());
+			}
+		}else if(COLUMNS.equals(action)){
+			try {
+				JSONObject point = new JSONObject();
+				String table = data.getString(0);
+				String [] tables = table.split(";");
+				int len = tables.length;
+				if(0==len)
+				{
+					return new PluginResult(Status.JSON_EXCEPTION);
+				}
+				for(int i=0;i<len;i++)
+				{
+					queryString = "SELECT AsText(Geometry) from " +tables[i] ;
+					getSQLData();
+				}
+				point.put("datas", dataList);
+				result = new PluginResult(Status.OK,point);
+			} catch(JSONException jsonEx){
+				Log.d("DirectoryListPlugin", "Got JSON Exception " + jsonEx.getMessage());
 			}
 		} else {
 			result = new PluginResult(Status.JSON_EXCEPTION);
